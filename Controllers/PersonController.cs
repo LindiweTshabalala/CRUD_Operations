@@ -2,6 +2,7 @@
 
 namespace ToDoApi.Controllers;
 using Config;
+using Microsoft.Extensions.Configuration;
 using Npgsql;
 using ToDoApi.CRUD_Operations;
 
@@ -38,10 +39,10 @@ public class PersonController : Controller
     }
 
     [HttpPost(Name = "AddPerson")]
-    public IActionResult Post(string FirstName, string LastName, DateTime DateOfBirth)
+    public IActionResult Post(string FirstName, string LastName, DateTime DateOfBirth, bool IsDeleted)
     {
 
-        return new ObjectResult(Person.AddPerson(connection, FirstName, LastName, DateOfBirth));
+        return new ObjectResult(Person.AddPerson(connection, FirstName, LastName, DateOfBirth, IsDeleted));
     }
 
     [HttpPut("SoftDelete/{PersonId}", Name = "SoftDeletePersonById")]
@@ -50,19 +51,32 @@ public class PersonController : Controller
         return new ObjectResult(Person.SoftDeletePersonById(connection, PersonId));
     }
 
-    [HttpPut("Update", Name = "UpdatePerson")]
-    public IActionResult UpdatePerson(int PersonId, string FirstName, string LastName, DateTime DateOfBirth)
+    [HttpPut("{id}")]
+    public IActionResult UpdatePerson(int id, [FromBody] PersonModel update)
     {
-        var updated = Person.UpdatePerson(connection, PersonId, FirstName, LastName, DateOfBirth); 
-        if (updated)
+        //if (!PersonExists(connection, id))
+        //{
+        //    return NotFound(); // return 404 if person with the given ID doesn't exist
+        //}
+
+        if (update == null || (update.FirstName == null && update.LastName == null && update.DateOfBirth == null))
         {
-            return Ok($"Person with ID {PersonId} successfully updated.");
+            return BadRequest(); 
+        }
+
+        bool result = Person.UpdatePerson(connection, id, update.FirstName, update.LastName, update.DateOfBirth);
+
+        if (result)
+        {
+            return Ok(); 
         }
         else
         {
-            return BadRequest($"Failed to update tenant with ID {PersonId}.");
+            return StatusCode(500); 
         }
+        
     }
+
 
     [HttpDelete("{PersonId}", Name = "DeletePersonById")]
     public IActionResult Delete(int PersonId)
