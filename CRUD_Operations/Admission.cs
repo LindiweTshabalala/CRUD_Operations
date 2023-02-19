@@ -33,7 +33,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine($"Error retrieving all admissions: {ex.Message}");
             }
-
+            connection.Close();
             return admissionModels.ToArray();
         }
 
@@ -65,7 +65,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine($"Error retrieving admission by id: {ex.Message}");
             }
-
+            connection.Close();
             return admission;
         }
 
@@ -90,7 +90,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine($"Error adding admission: {ex.Message}");
             }
-
+            connection.Close();
             return admission;
         }
 
@@ -109,6 +109,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("Error executing SoftDeleteAdmission: " + ex.Message);
             }
+            connection.Close();
             return rowsAffected;
         }
 
@@ -127,6 +128,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("Error executing DeleteAdmissionById: " + ex.Message);
             }
+            connection.Close();
             return rowsAffected > 0;
         }
     }

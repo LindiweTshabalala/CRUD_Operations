@@ -32,7 +32,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("Error retrieving wards: " + ex.Message);
             }
-
+            connection.Close();
             return wardModels.ToArray();
         }
 
@@ -63,7 +63,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("Error retrieving ward: " + ex.Message);
             }
-
+            connection.Close();
             return ward;
         }
 
@@ -86,7 +86,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("Error adding ward: " + ex.Message);
             }
-
+            connection.Close();
             return ward;
         }
 
@@ -107,7 +107,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("Error deleting ward: " + ex.Message);
             }
-
+            connection.Close();
             return rowsAffected;
         }
 
@@ -120,13 +120,14 @@ namespace ToDoApi.CRUD_Operations
                     cmd.Parameters.AddWithValue("WardId", WardId);
 
                     int rowsAffected = cmd.ExecuteNonQuery();
-
+                    connection.Close();
                     return rowsAffected > 0;
                 }
             }
             catch (NpgsqlException ex)
             {
                 Console.WriteLine("Error deleting ward: " + ex.Message);
+                connection.Close();
                 return false;
             }
         }

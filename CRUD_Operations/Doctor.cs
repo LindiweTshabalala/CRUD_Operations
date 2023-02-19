@@ -32,7 +32,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("An error occurred while retrieving all doctors: " + ex.Message);
             }
-
+            connection.Close();
             return doctorModels.ToArray();
         }
 
@@ -58,7 +58,7 @@ namespace ToDoApi.CRUD_Operations
                         }
                     }
                 }
-
+                connection.Close();
                 return doctor;
             }
             catch (Exception ex)
@@ -81,6 +81,7 @@ namespace ToDoApi.CRUD_Operations
                     doctor.PersonId = PersonId;
                     doctor.DrSpecialtyId = DrSpecialtyId;
                 }
+                connection.Close();
                 return doctor;
             }
             catch (Exception ex)
@@ -98,6 +99,7 @@ namespace ToDoApi.CRUD_Operations
                 {
                     command.Parameters.AddWithValue("DoctorId", DoctorId);
                     rowsAffected = command.ExecuteNonQuery();
+                    connection.Close();
                     return rowsAffected;
                 }
             }
@@ -114,9 +116,8 @@ namespace ToDoApi.CRUD_Operations
                 using (NpgsqlCommand cmd = new NpgsqlCommand("DELETE FROM Doctors WHERE DoctorId = @DoctorId", connection))
                 {
                     cmd.Parameters.AddWithValue("DoctorId", DoctorId);
-
                     int rowsAffected = cmd.ExecuteNonQuery();
-
+                    connection.Close();
                     return rowsAffected > 0; 
                 }
             }

@@ -25,7 +25,7 @@ public class DoctorSpecialtyController : Controller
     }
 
     [HttpPost(Name = "AddDrSpecialty")]
-    public IActionResult Post([Bind("SpecialtyName")] string SpecialtyName)
+    public IActionResult Post(string SpecialtyName)
     {
 
         return new ObjectResult(DoctorSpecialty.AddDrSpecialty(connection, SpecialtyName));

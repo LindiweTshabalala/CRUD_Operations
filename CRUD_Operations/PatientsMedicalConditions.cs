@@ -33,7 +33,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("An error occurred while getting all medical conditions: " + ex.Message);
             }
-
+            connection.Close();
             return patientMedicalConditionModels.ToArray();
         }
 
@@ -64,7 +64,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("An error occurred while getting medical condition by ID: " + ex.Message);
             }
-
+            connection.Close();
             return patientMedicalCondition;
         }
 
@@ -88,7 +88,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 throw new Exception("Error occurred while adding medical condition: " + ex.Message);
             }
-
+            connection.Close();
             return medicalCondition;
         }
 
@@ -102,6 +102,7 @@ namespace ToDoApi.CRUD_Operations
                 {
                     command.Parameters.AddWithValue("PatientId", PatientId);
                     rowsAffected = command.ExecuteNonQuery();
+                    connection.Close();
                     return rowsAffected;
                 }
             }
@@ -118,9 +119,8 @@ namespace ToDoApi.CRUD_Operations
                 using (NpgsqlCommand cmd = new NpgsqlCommand("DELETE FROM PatientsMedicalCondition WHERE PatientId = @PatientId", connection))
                 {
                     cmd.Parameters.AddWithValue("PatientId", PatientId);
-
                     int rowsAffected = cmd.ExecuteNonQuery();
-
+                    connection.Close();
                     return rowsAffected > 0; 
                 }
             }

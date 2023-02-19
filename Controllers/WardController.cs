@@ -25,7 +25,7 @@ public class WardController : Controller
     }
 
     [HttpPost(Name = "AddWard")]
-    public IActionResult Post([Bind("WardName")] string WardName, [Bind("BedCount")] int BedCount)
+    public IActionResult Post(string WardName, int BedCount)
     {
 
         return new ObjectResult(Ward.AddWard(connection, WardName, BedCount));

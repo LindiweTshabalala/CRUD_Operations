@@ -25,7 +25,7 @@ public class AdmissionController : Controller
     }
 
     [HttpPost(Name = "AddAdmission")]
-    public IActionResult Post([Bind("PersonId")] int PersonId, [Bind("DateOfAdmission")] DateTime DateOfAdmission, [Bind("DateOfDischarge")] DateTime DateOfDischarge)
+    public IActionResult Post(int PersonId, DateTime DateOfAdmission, DateTime DateOfDischarge)
     {
 
         return new ObjectResult(Admission.AddAdmission(connection, PersonId, DateOfAdmission, DateOfDischarge));

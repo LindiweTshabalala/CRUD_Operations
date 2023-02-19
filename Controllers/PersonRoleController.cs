@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
 namespace ToDoApi.Controllers;
 using Config;
 using Npgsql;
@@ -37,7 +36,6 @@ public class PersonRoleController : Controller
 
         if (deleteSuccessful)
         {
-            // Return a 204 No Content response to indicate success with no response body
             return NoContent();
         }
         else

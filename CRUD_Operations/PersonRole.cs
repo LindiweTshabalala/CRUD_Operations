@@ -33,7 +33,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine($"An error occurred while getting all person roles: {ex.Message}");
             }
-
+            connection.Close();
             return personRoleModels.ToArray();
         }
 
@@ -64,7 +64,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine($"An error occurred while getting person role by ID: {ex.Message}");
             }
-
+            connection.Close();
             return personRoleModel;
         }
 
@@ -77,6 +77,7 @@ namespace ToDoApi.CRUD_Operations
                 {
                     command.Parameters.AddWithValue("PersonRoleId", PersonRoleId);
                     rowsAffected = command.ExecuteNonQuery();
+                    connection.Close();
                     return rowsAffected;
                 }
             }
@@ -94,15 +95,15 @@ namespace ToDoApi.CRUD_Operations
                 using (NpgsqlCommand cmd = new NpgsqlCommand("DELETE FROM PersonRole WHERE PersonRoleId = @PersonRoleId", connection))
                 {
                     cmd.Parameters.AddWithValue("PersonRoleId", PersonRoleId);
-
                     int rowsAffected = cmd.ExecuteNonQuery();
-
+                    connection.Close();
                     return rowsAffected > 0;
                 }
             }
             catch (NpgsqlException ex)
             {
                 Console.WriteLine($"An error occurred while deleting person role by ID: {ex.Message}");
+                connection.Close();
                 return false;
             }
         }

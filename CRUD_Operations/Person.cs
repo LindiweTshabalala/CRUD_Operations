@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Npgsql;
 
 namespace ToDoApi.CRUD_Operations
@@ -8,6 +9,7 @@ namespace ToDoApi.CRUD_Operations
         public static PersonModel[] GetAllPeople(NpgsqlConnection connection)
         {
             List<PersonModel> personModels = new List<PersonModel>();
+            
             PersonModel personModel = new();
             try
             {
@@ -33,6 +35,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("Error executing GetAllPeople: " + ex.Message);
             }
+            connection.Close();
             return personModels.ToArray();
         }
 
@@ -63,6 +66,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("Error executing GetPersonById: " + ex.Message);
             }
+            connection.Close();
             return person;
         }
 
@@ -86,6 +90,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("Error executing AddPerson: " + ex.Message);
             }
+            connection.Close();
             return person;
         }
 
@@ -104,6 +109,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("Error executing SoftDeletePersonById: " + ex.Message);
             }
+            connection.Close();
             return rowsAffected;
         }
 
@@ -122,7 +128,24 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("Error executing DeletePersonById: " + ex.Message);
             }
+            connection.Close();
             return rowsAffected > 0;
+        }
+
+        public static bool UpdatePerson(NpgsqlConnection connection, int PersonID, string FirstName, string LastName, DateTime DateOfBirth)
+        {
+            using (NpgsqlCommand command = new NpgsqlCommand(
+            "UPDATE People SET FirstName = @FirstName, LastName = @LastName, DateOfBirth = @ DateOfBirth WHERE PersonId = @PersonId",
+            connection))
+            {
+                command.Parameters.AddWithValue("PersonId", PersonID); 
+                command.Parameters.AddWithValue("FirstName", FirstName);
+                command.Parameters.AddWithValue("LastName", LastName);
+                command.Parameters.AddWithValue("DateOfBirth", DateOfBirth);
+                int affectedRows = command.ExecuteNonQuery(); 
+                connection.Close(); 
+                return affectedRows > 0;
+            }
         }
     }
 }

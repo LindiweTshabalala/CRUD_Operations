@@ -32,7 +32,7 @@ namespace ToDoApi.CRUD_Operations
                 Console.WriteLine(ex.ToString());
                 throw;
             }
-
+            connection.Close();
             return roleModels.ToArray();
         }
 
@@ -63,7 +63,7 @@ namespace ToDoApi.CRUD_Operations
                 Console.WriteLine(ex.ToString());
                 throw;
             }
-
+            connection.Close();
             return roleModel;
         }
 
@@ -84,6 +84,7 @@ namespace ToDoApi.CRUD_Operations
                 Console.WriteLine(ex.ToString());
                 throw;
             }
+            connection.Close();
             return role;
         }
 
@@ -103,6 +104,7 @@ namespace ToDoApi.CRUD_Operations
                 Console.WriteLine(ex.ToString());
                 throw;
             }
+            connection.Close();
             return rowsAffected;
         }
 
@@ -115,7 +117,7 @@ namespace ToDoApi.CRUD_Operations
                     cmd.Parameters.AddWithValue("RoleId", RoleId);
 
                     int rowsAffected = cmd.ExecuteNonQuery();
-
+                    connection.Close();
                     return rowsAffected > 0; 
                 }
             }

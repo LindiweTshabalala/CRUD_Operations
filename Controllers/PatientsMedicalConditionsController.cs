@@ -25,7 +25,7 @@ public class PatientsMedicalConditionController : Controller
     }
 
     [HttpPost(Name = "AddMedicalCondition")]
-    public IActionResult Post([Bind("PersonId")] int PersonId, [Bind("MedicalCondition")] string MedicalCondition)
+    public IActionResult Post(int PersonId, string MedicalCondition)
     {
 
         return new ObjectResult(PatientsMedicalCondition.AddMedicalCondition(connection, PersonId, MedicalCondition));

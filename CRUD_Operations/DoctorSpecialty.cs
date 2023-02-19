@@ -31,7 +31,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("An error occurred while retrieving DoctorSpecialty data: " + ex.Message);
             }
-
+            connection.Close();
             return drSpecialtyModels.ToArray();
         }
 
@@ -61,7 +61,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine("An error occurred while retrieving DoctorSpecialty data: " + ex.Message);
             }
-
+            connection.Close();
             return drSpecialty;
         }
 
@@ -82,7 +82,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-
+            connection.Close();
             return drSpecialty;
         }
 
@@ -102,7 +102,7 @@ namespace ToDoApi.CRUD_Operations
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-
+            connection.Close();
             return rowsAffected;
         }
 
@@ -113,9 +113,8 @@ namespace ToDoApi.CRUD_Operations
                 using (NpgsqlCommand cmd = new NpgsqlCommand("DELETE FROM DoctorSpecialty WHERE DrSpecialtyId = @DrSpecialtyId", connection))
                 {
                     cmd.Parameters.AddWithValue("DrSpecialtyId", DrSpecialtyId);
-
                     int rowsAffected = cmd.ExecuteNonQuery();
-
+                    connection.Close();
                     return rowsAffected > 0; 
 
                 }

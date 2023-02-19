@@ -25,7 +25,7 @@ public class RoleController : Controller
     }
 
     [HttpPost(Name = "AddRole")]
-    public IActionResult Post([Bind("RoleName")] string RoleName)
+    public IActionResult Post(string RoleName)
     {
 
         return new ObjectResult(Role.AddRole(connection, RoleName));
